@@ -1,6 +1,5 @@
 # Ejemplo practico del reto Dataton 2022
 
-
 # freshFork – Sistema de Recomendación Proactivo
 
 ## 🔹 Arquitectura Propuesta (Azure + Databricks Medallion)
@@ -67,19 +66,31 @@ flowchart LR
 
 ---
 
+## 🔹 Trade-offs, Supuestos y Riesgos
+
+* **Cold-start problem**: nuevos ingredientes o recetas sin historial pueden recibir baja relevancia inicial → mitigado con popularidad global y señales sociales.
+* **Sesgos en datos**: redes sociales pueden reflejar preferencias de nichos, no de la población general → se balancea con ventas en supermercados.
+* **Freshness de datos**: tendencias cambian rápido, por lo que la latencia de ingesta debe ser baja (minutos/horas, no días).
+* **Costo y escalabilidad**: uso intensivo de LLMs (Azure OpenAI) puede elevar costos; se necesita caching y distillation.
+* **Ruido en redes sociales**: hashtags artificiales o campañas de marketing pueden sesgar resultados → se aplican filtros y validaciones cruzadas con datos de ventas.
+
+---
+
 ## 🔹 Plan de Experimentación
 
 ### Offline (validación inicial)
 
-* **Precision@k / Recall@k**: exactitud de las recomendaciones.
-* **Novelty / Diversity**: grado de innovación y variedad en las recetas.
+* **Precision@k / Recall@k**: exactitud de recomendaciones.
+* **Novelty / Diversity**: innovación y variedad en las recetas.
 * **NDCG (Normalized Discounted Cumulative Gain)**: ranking de relevancia.
+* **Coverage**: porcentaje de ingredientes/recetas cubiertos.
 
 ### Online (A/B testing)
 
-* **CTR uplift**: comparación entre recomendaciones actuales vs. modelo propuesto.
+* **CTR uplift**: incremento en tasa de clics frente a baseline.
 * **Engagement**: guardados, compartidos, comentarios.
-* **Conversion**: adopción real de nuevas recetas sugeridas.
+* **Conversion**: adopción real de recetas sugeridas.
+* **Retention uplift**: frecuencia de uso de la aplicación tras nuevas recomendaciones.
 
 ---
 
@@ -89,3 +100,4 @@ flowchart LR
 * Reproducibilidad (Feature Store + MLflow).
 * Creatividad controlada (RAG + LLMs).
 * Ciclo cerrado de mejora continua con feedback de usuarios.
+
