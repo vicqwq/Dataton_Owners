@@ -1,4 +1,4 @@
-# Ejemplo practico del reto Dataton 2022
+
 
 # freshFork – Sistema de Recomendación Proactivo
 
